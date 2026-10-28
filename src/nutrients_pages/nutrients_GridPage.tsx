@@ -12,11 +12,15 @@ export const Nutrients_GridPage: FC = () => {
   const [nutrients_items, nutrients_setItems] = useState<INutrients_Item[]>([]);
 
   useEffect(() => {
-    nutrients_setItems(NUTRIENTS_MOCK_DATA);
+    // При первой загрузке берем только опубликованные
+    const publishedOnly = NUTRIENTS_MOCK_DATA.filter(n => n.nutrients_status === 'опубликован');
+    nutrients_setItems(publishedOnly);
   }, []);
 
   const nutrients_handleSearch = () => {
-    let filtered = NUTRIENTS_MOCK_DATA;
+    // При поиске фильтруем сначала по статусу, затем по норме
+    let filtered = NUTRIENTS_MOCK_DATA.filter(n => n.nutrients_status === 'опубликован');
+    
     if (minNorm) {
       filtered = filtered.filter(n => n.nutrients_daily_norm >= Number(minNorm));
     }
@@ -26,7 +30,6 @@ export const Nutrients_GridPage: FC = () => {
     nutrients_setItems(filtered);
   };
 
-  // Передаем id выбранной карточки в state роутера
   const nutrients_handleCardClick = (id: number) => {
     nutrients_navigate('/', { state: { selectedId: id } });
   };

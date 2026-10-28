@@ -9,6 +9,7 @@ export interface INutrients_Item {
   nutrients_image_url: string;
   nutrients_video_url?: string;
   nutrients_likes_count: number;
+  nutrients_status: 'опубликован' | 'удалён' | 'черновик';
 }
 
 export const NUTRIENTS_MOCK_DATA: INutrients_Item[] = [
@@ -21,6 +22,7 @@ export const NUTRIENTS_MOCK_DATA: INutrients_Item[] = [
     nutrients_image_url: '/nutrients_default_image.jpg',
     nutrients_video_url: '/nutrients_default_video.mp4',
     nutrients_likes_count: 3,
+    nutrients_status: 'опубликован',
   },
   {
     nutrients_id: 2,
@@ -31,6 +33,7 @@ export const NUTRIENTS_MOCK_DATA: INutrients_Item[] = [
     nutrients_image_url: '/nutrients_default_image.jpg',
     nutrients_video_url: '/nutrients_default_video.mp4',
     nutrients_likes_count: 2,
+    nutrients_status: 'опубликован',
   },
   {
     nutrients_id: 3,
@@ -41,6 +44,7 @@ export const NUTRIENTS_MOCK_DATA: INutrients_Item[] = [
     nutrients_image_url: '/nutrients_default_image.jpg',
     nutrients_video_url: '/nutrients_default_video.mp4',
     nutrients_likes_count: 0,
+    nutrients_status: 'опубликован',
   },
   {
     nutrients_id: 4,
@@ -51,6 +55,7 @@ export const NUTRIENTS_MOCK_DATA: INutrients_Item[] = [
     nutrients_image_url: '/nutrients_default_image.jpg',
     nutrients_video_url: '/nutrients_default_video.mp4',
     nutrients_likes_count: 0,
+    nutrients_status: 'опубликован',
   },
   {
     nutrients_id: 5,
@@ -61,6 +66,7 @@ export const NUTRIENTS_MOCK_DATA: INutrients_Item[] = [
     nutrients_image_url: '/nutrients_default_image.jpg',
     nutrients_video_url: '/nutrients_default_video.mp4',
     nutrients_likes_count: 3,
+    nutrients_status: 'опубликован',
   },
   {
     nutrients_id: 6,
@@ -71,5 +77,6 @@ export const NUTRIENTS_MOCK_DATA: INutrients_Item[] = [
     nutrients_image_url: '/nutrients_default_image.jpg',
     nutrients_video_url: '/nutrients_default_video.mp4',
     nutrients_likes_count: 0,
-  },
+    nutrients_status: 'удалён',
+  }
 ];

@@ -2,32 +2,34 @@ import { type FC, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { NUTRIENTS_MOCK_DATA } from '../nutrients_modules/nutrients_api';
 
+// Отфильтровываем опубликованные карточки вне компонента
+const PUBLISHED_ITEMS = NUTRIENTS_MOCK_DATA.filter(n => n.nutrients_status === 'опубликован');
+
 export const Nutrients_FeedPage: FC = () => {
   const location = useLocation();
   const nutrients_default_video = '/nutrients_default_video.mp4';
 
-  // Проверяем, пришли ли мы с плитки с конкретным id
   const initialId = location.state?.selectedId;
   const initialIndex = initialId 
-    ? NUTRIENTS_MOCK_DATA.findIndex(n => n.nutrients_id === initialId) 
+    ? PUBLISHED_ITEMS.findIndex(n => n.nutrients_id === initialId) 
     : 0;
 
-  // Локальное состояние для перелистывания карточек
   const [currentIndex, setCurrentIndex] = useState(initialIndex !== -1 ? initialIndex : 0);
 
-  // Синхронизируем индекс, если вдруг зашли с плитки на другую карточку
   useEffect(() => {
     if (initialId) {
-      const idx = NUTRIENTS_MOCK_DATA.findIndex(n => n.nutrients_id === initialId);
+      const idx = PUBLISHED_ITEMS.findIndex(n => n.nutrients_id === initialId);
       if (idx !== -1) setCurrentIndex(idx);
     }
   }, [initialId]);
 
-  const nutrients_item = NUTRIENTS_MOCK_DATA[currentIndex];
+  // Защита: если вдруг массив пустой, ничего не рендерим
+  if (PUBLISHED_ITEMS.length === 0) return null;
 
-  // Кнопка Вниз переключает на следующий элемент по кругу, без смены URL
+  const nutrients_item = PUBLISHED_ITEMS[currentIndex];
+
   const nutrients_handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % NUTRIENTS_MOCK_DATA.length);
+    setCurrentIndex((prev) => (prev + 1) % PUBLISHED_ITEMS.length);
   };
 
   return (
@@ -40,7 +42,7 @@ export const Nutrients_FeedPage: FC = () => {
           loop
           muted
           playsInline
-          key={nutrients_item.nutrients_id} // Добавлено, чтобы видео перезапускалось при смене
+          key={`video-${nutrients_item.nutrients_id}`}
         />
         
         <div className="feed-actions-right">
@@ -58,10 +60,19 @@ export const Nutrients_FeedPage: FC = () => {
         <div className="feed-overlay">
           <p className="feed-title">{nutrients_item.nutrients_name}</p>
           
-          <div className="desc-container">
-            <input type="checkbox" id="descToggle" className="desc-checkbox" />
+          {/* 
+            ИСПРАВЛЕНИЕ ЗДЕСЬ: 
+            Добавлен key (чтобы сбрасывать состояние чекбокса при смене карточки) 
+            и уникальные id для input и htmlFor 
+          */}
+          <div className="desc-container" key={`desc-${nutrients_item.nutrients_id}`}>
+            <input 
+              type="checkbox" 
+              id={`descToggle-${nutrients_item.nutrients_id}`} 
+              className="desc-checkbox" 
+            />
             <p className="desc-text">{nutrients_item.nutrients_description}</p>
-            <label htmlFor="descToggle" className="desc-label"></label>
+            <label htmlFor={`descToggle-${nutrients_item.nutrients_id}`} className="desc-label"></label>
           </div>
         </div>
       </div>

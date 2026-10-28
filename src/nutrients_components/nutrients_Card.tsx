@@ -25,18 +25,6 @@ export const Nutrients_Card: FC<INutrients_CardProps> = ({ nutrients_item, nutri
           <p className="card-likes">{nutrients_item.nutrients_likes_count}</p>
         </div>
       </div>
-      
-      {/* Кнопка удалить (без функционала для 5-й лабы) */}
-      <div className="delete-form">
-        <button 
-          className="delete-btn" 
-          onClick={(e) => {
-            e.stopPropagation(); 
-          }}
-        >
-          Удалить
-        </button>
-      </div>
     </div>
   );
 };
