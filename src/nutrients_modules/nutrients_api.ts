@@ -1,5 +1,3 @@
-// src/nutrients_modules/nutrients_api.ts
-
 export interface INutrients_Item {
   nutrients_id: number;
   nutrients_name: string;

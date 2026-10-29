@@ -1,5 +1,4 @@
 import { type FC } from 'react';
-// Импорт CSS удален, так как все стили уже есть в глобальном index.css
 
 interface INutrients_InputFieldProps {
   minNorm: string;

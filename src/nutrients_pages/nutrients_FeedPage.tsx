@@ -2,7 +2,7 @@ import { type FC, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { NUTRIENTS_MOCK_DATA } from '../nutrients_modules/nutrients_api';
 
-// Отфильтровываем опубликованные карточки вне компонента
+// Фильтрация опубликованных карточек вне компонента
 const PUBLISHED_ITEMS = NUTRIENTS_MOCK_DATA.filter(n => n.nutrients_status === 'опубликован');
 
 export const Nutrients_FeedPage: FC = () => {
@@ -23,7 +23,7 @@ export const Nutrients_FeedPage: FC = () => {
     }
   }, [initialId]);
 
-  // Защита: если вдруг массив пустой, ничего не рендерим
+  // Если массив пустой, ничего не рендерится
   if (PUBLISHED_ITEMS.length === 0) return null;
 
   const nutrients_item = PUBLISHED_ITEMS[currentIndex];
