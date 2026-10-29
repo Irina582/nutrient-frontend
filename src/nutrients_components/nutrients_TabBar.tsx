@@ -9,7 +9,8 @@ export const Nutrients_TabBar: FC = () => {
 
   return (
     <nav className="tabbar">
-      <button type="button" className={`tab-item ${nutrients_isActive(NUTRIENTS_ROUTES.NUTRIENTS_FEED) ? 'active' : ''}`} onClick={() => nutrients_navigate(NUTRIENTS_ROUTES.NUTRIENTS_FEED)}>
+      <button type="button" className={`tab-item ${nutrients_isActive(NUTRIENTS_ROUTES.NUTRIENTS_FEED) ? 'active' : ''}`} 
+      onClick={() => nutrients_navigate(NUTRIENTS_ROUTES.NUTRIENTS_FEED)}>
         <span className="tab-icon"></span>
         {NUTRIENTS_ROUTE_LABELS.NUTRIENTS_FEED}
       </button>
@@ -20,7 +21,8 @@ export const Nutrients_TabBar: FC = () => {
         {NUTRIENTS_ROUTE_LABELS.NUTRIENTS_ADD}
       </button>
 
-      <button type="button" className={`tab-item ${nutrients_isActive(NUTRIENTS_ROUTES.NUTRIENTS_GRID) ? 'active' : ''}`} onClick={() => nutrients_navigate(NUTRIENTS_ROUTES.NUTRIENTS_GRID)}>
+      <button type="button" className={`tab-item ${nutrients_isActive(NUTRIENTS_ROUTES.NUTRIENTS_GRID) ? 'active' : ''}`} 
+      onClick={() => nutrients_navigate(NUTRIENTS_ROUTES.NUTRIENTS_GRID)}>
         <span className="tab-icon"></span>
         {NUTRIENTS_ROUTE_LABELS.NUTRIENTS_GRID}
       </button>
