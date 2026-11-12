@@ -186,19 +186,20 @@ body {
 /* ============================================
    СЕТКА КАРТОЧЕК
    ============================================ */
+
+.tile-grid::-webkit-scrollbar {
+    display: none;
+}
+
 .tile-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    padding: 14px;
+    gap: 12px; /* Уменьшили расстояние между карточками */
+    padding: 14px; /* Чуть уменьшили отступы по бокам */
     overflow-y: auto;
     flex: 1;
     background: #f5f5f5;
     align-content: start;
-}
-
-.tile-grid::-webkit-scrollbar {
-    display: none;
 }
 
 .card-block {
@@ -231,13 +232,13 @@ body {
 }
 
 .card-info {
-    padding: 10px 12px 12px;
+    padding: 6px 10px 6px;
 }
 
 .card-title {
     font-size: 13px;
     font-weight: 600;
-    margin-bottom: 3px;
+    margin-bottom: 1px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -789,4 +790,108 @@ video.preview-media {
 
 .add-form input[readonly]:invalid {
     box-shadow: none;
+}
+
+.card-delete-btn {
+    background-color: #259b23;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: background-color 0.15s ease;
+}
+
+.card-delete-btn:hover {
+    background-color: #1e8a1c;
+}
+
+.login-screen-wrapper {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 300px;
+}
+
+.login-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.login-error {
+    color: #dc3545;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-input {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 14px;
+}
+
+.login-input:focus {
+    border-color: #259b23;
+    box-shadow: 0 0 0 2px rgba(37, 155, 35, 0.2);
+}
+
+.login-submit-btn {
+    padding: 12px;
+    border-radius: 10px;
+    background: #259b23;
+    color: white;
+    border: none;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.login-submit-btn:hover {
+    background: #1e8a1c;
+}
+
+.feed-like-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    transition: background-color 0.2s, transform 0.2s;
+    border: none;
+    cursor: pointer;
+    line-height: 1.2;
+    padding: 0;
+}
+
+.feed-like-btn:hover {
+    transform: scale(1.08);
 }

@@ -1,10 +1,10 @@
 // src/nutrients_Routes.ts
 
 export const NUTRIENTS_ROUTES = {
-  NUTRIENTS_FEED: '/',
-  NUTRIENTS_ADD: '/nutrients_add',
-  NUTRIENTS_GRID: '/nutrients_grid',
-  NUTRIENTS_LOGIN: '/nutrients_login',
+  NUTRIENTS_FEED: '/nutrients/feed',
+  NUTRIENTS_ADD: '/nutrients/add',
+  NUTRIENTS_GRID: '/nutrients',
+  NUTRIENTS_LOGIN: '/users/login',
 } as const;
 
 export type NutrientsRouteKey = keyof typeof NUTRIENTS_ROUTES;

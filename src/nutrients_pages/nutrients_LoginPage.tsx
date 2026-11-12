@@ -45,14 +45,36 @@ export const Nutrients_LoginPage: FC = () => {
   };
 
   return (
-    <div style={{ flex: 1, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-      <div style={{ width: '100%', maxWidth: '300px' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Вход в систему</h2>
-        {nutrients_error && <div style={{ color: 'red', marginBottom: '10px', textAlign: 'center' }}>{nutrients_error}</div>}
-        <form onSubmit={nutrients_handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-          <input type="text" name="username" value={nutrients_formData.username} onChange={nutrients_handleChange} placeholder="Логин" style={{ padding: '10px', borderRadius: '10px', border: '1px solid #ccc' }} required disabled={isLoading} />
-          <input type="password" name="password" value={nutrients_formData.password} onChange={nutrients_handleChange} placeholder="Пароль" style={{ padding: '10px', borderRadius: '10px', border: '1px solid #ccc' }} required disabled={isLoading} />
-          <button type="submit" style={{ padding: '12px', borderRadius: '10px', background: '#259b23', color: 'white', border: 'none', fontWeight: 'bold', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '45px' }} disabled={isLoading}>
+    <div className="login-screen-wrapper">
+      <div className="login-container">
+        <h2 className="login-title">Вход в систему</h2>
+        
+        {nutrients_error && <div className="login-error">{nutrients_error}</div>}
+        
+        <form onSubmit={nutrients_handleSubmit} className="login-form">
+          <input 
+            type="text" 
+            name="username" 
+            value={nutrients_formData.username} 
+            onChange={nutrients_handleChange} 
+            placeholder="Логин" 
+            className="login-input" 
+            required 
+            disabled={isLoading} 
+          />
+          
+          <input 
+            type="password" 
+            name="password" 
+            value={nutrients_formData.password} 
+            onChange={nutrients_handleChange} 
+            placeholder="Пароль" 
+            className="login-input" 
+            required 
+            disabled={isLoading} 
+          />
+          
+          <button type="submit" className="login-submit-btn" disabled={isLoading}>
             {isLoading ? <Spinner animation="border" size="sm" /> : 'Войти'}
           </button>
         </form>

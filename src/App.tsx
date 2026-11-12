@@ -12,6 +12,7 @@ function App() {
       <Routes>
         <Route element={<Nutrients_AppLayout />}>
           <Route path={NUTRIENTS_ROUTES.NUTRIENTS_FEED} element={<Nutrients_FeedPage />} />
+          <Route path="/nutrients/feed/:id" element={<Nutrients_FeedPage />} />
           <Route path={NUTRIENTS_ROUTES.NUTRIENTS_GRID} element={<Nutrients_GridPage />} />
           <Route path={NUTRIENTS_ROUTES.NUTRIENTS_LOGIN} element={<Nutrients_LoginPage />} />
           <Route path={NUTRIENTS_ROUTES.NUTRIENTS_ADD} element={<Nutrients_AddPage />} />

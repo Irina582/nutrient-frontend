@@ -6,6 +6,7 @@ import type { AppDispatch, RootState } from '../nutrients_store';
 import { nutrients_fetchList, nutrients_removeAsync } from '../nutrients_store/nutrients_listSlice';
 import { Nutrients_Card } from '../nutrients_components/nutrients_Card';
 import { Nutrients_InputField } from '../nutrients_components/nutrients_InputField';
+import { NUTRIENTS_ROUTES } from '../nutrients_Routes';
 
 export const Nutrients_GridPage: FC = () => {
   const nutrients_navigate = useNavigate();
@@ -18,7 +19,7 @@ export const Nutrients_GridPage: FC = () => {
   }, [dispatch]);
 
   const nutrients_handleCardClick = (id: number) => {
-    nutrients_navigate('/', { state: { selectedId: id } });
+    nutrients_navigate(NUTRIENTS_ROUTES.NUTRIENTS_FEED, { state: { selectedId: id } });
   };
 
   const nutrients_handleDelete = (id: number) => {
