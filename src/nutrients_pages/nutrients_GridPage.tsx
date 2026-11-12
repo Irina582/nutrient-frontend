@@ -1,58 +1,51 @@
-import { type FC, useState, useEffect } from 'react';
+import { type FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { INutrients_Item } from '../nutrients_modules/nutrients_api';
-import { NUTRIENTS_MOCK_DATA } from '../nutrients_modules/nutrients_api';
+import { useDispatch, useSelector } from 'react-redux';
+import { Spinner } from 'react-bootstrap';
+import type { AppDispatch, RootState } from '../nutrients_store';
+import { nutrients_fetchList, nutrients_removeAsync } from '../nutrients_store/nutrients_listSlice';
 import { Nutrients_Card } from '../nutrients_components/nutrients_Card';
 import { Nutrients_InputField } from '../nutrients_components/nutrients_InputField';
 
 export const Nutrients_GridPage: FC = () => {
   const nutrients_navigate = useNavigate();
-  const [minNorm, setMinNorm] = useState('0');
-  const [maxNorm, setMaxNorm] = useState('150');
-  const [nutrients_items, nutrients_setItems] = useState<INutrients_Item[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  
+  const { nutrients_items, nutrients_loading } = useSelector((state: RootState) => state.nutrients_list);
 
   useEffect(() => {
-    // При первой загрузке берем только опубликованные
-    const publishedOnly = NUTRIENTS_MOCK_DATA.filter(n => n.nutrients_status === 'опубликован');
-    nutrients_setItems(publishedOnly);
-  }, []);
-
-  const nutrients_handleSearch = () => {
-    // При поиске фильтруем сначала по статусу, затем по норме
-    let filtered = NUTRIENTS_MOCK_DATA.filter(n => n.nutrients_status === 'опубликован');
-    
-    if (minNorm) {
-      filtered = filtered.filter(n => n.nutrients_daily_norm >= Number(minNorm));
-    }
-    if (maxNorm) {
-      filtered = filtered.filter(n => n.nutrients_daily_norm <= Number(maxNorm));
-    }
-    nutrients_setItems(filtered);
-  };
+    dispatch(nutrients_fetchList());
+  }, [dispatch]);
 
   const nutrients_handleCardClick = (id: number) => {
     nutrients_navigate('/', { state: { selectedId: id } });
   };
 
+  const nutrients_handleDelete = (id: number) => {
+    dispatch(nutrients_removeAsync(id)); 
+  };
+
   return (
     <>
-      <Nutrients_InputField
-        minNorm={minNorm}
-        setMinNorm={setMinNorm}
-        maxNorm={maxNorm}
-        setMaxNorm={setMaxNorm}
-        onSubmit={nutrients_handleSearch}
-      />
+      <Nutrients_InputField />
+      <div className="tile-grid" style={{ position: 'relative' }}>
+        
+        {nutrients_loading && (
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', background: 'rgba(245, 245, 245, 0.6)', zIndex: 10 }}>
+            <Spinner animation="border" style={{ color: '#259b23' }} />
+          </div>
+        )}
 
-      <div className="tile-grid">
-        {nutrients_items.map((nutrients_item) => (
+        {nutrients_items.map((nutrients_item: any) => (
           <Nutrients_Card
-            key={nutrients_item.nutrients_id}
+            key={nutrients_item.id || nutrients_item.nutrients_id}
             nutrients_item={nutrients_item}
-            nutrients_onClick={() => nutrients_handleCardClick(nutrients_item.nutrients_id)}
+            nutrients_onClick={() => nutrients_handleCardClick(nutrients_item.id || nutrients_item.nutrients_id)}
+            nutrients_onDelete={nutrients_handleDelete}
           />
         ))}
-        {nutrients_items.length === 0 && (
+        
+        {!nutrients_loading && nutrients_items.length === 0 && (
           <p style={{ gridColumn: '1/-1', textAlign: 'center', color: '#999', padding: '40px 0' }}>Нутриенты не найдены</p>
         )}
       </div>

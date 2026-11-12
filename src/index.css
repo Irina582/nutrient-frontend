@@ -198,12 +198,7 @@ body {
 }
 
 .tile-grid::-webkit-scrollbar {
-    width: 3px;
-}
-
-.tile-grid::-webkit-scrollbar-thumb {
-    background: #259b23;
-    border-radius: 10px;
+    display: none;
 }
 
 .card-block {
@@ -495,4 +490,303 @@ body {
 
 .delete-btn:hover {
     background: #1e8a1c;
+}
+
+.add-page-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f2f4f7;
+  overflow-y: auto;
+  padding-bottom: 80px; /* Отступ для таббара */
+}
+
+.header-title {
+  margin: 0;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 15px 20px;
+}
+
+.form-content {
+  padding: 20px;
+}
+
+.add-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.media-preview-box, .media-upload-box {
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.media-label {
+  display: block;
+  font-size: 12px;
+  color: #888;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.media-preview-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.media-preview-video {
+  width: 100%;
+  border-radius: 8px;
+  background: black;
+}
+
+.file-input {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.form-input, .form-textarea {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  font-size: 16px;
+  outline: none;
+  background: white;
+}
+
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.readonly-input {
+  background-color: #f0f0f0;
+  color: #666;
+  box-shadow: none;
+}
+
+.input-error {
+  border: 2px solid #e53935;
+}
+
+.error-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 20px;
+  margin-top: 4px;
+  background: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  font-size: 14px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.error-icon {
+  background: #f57c00;
+  color: white;
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.submit-btn {
+  background-color: #2e8b22;
+  color: white;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  box-shadow: 0 4px 10px rgba(46, 139, 34, 0.3);
+}
+
+.submit-btn:hover {
+  background-color: #25731b;
+}
+
+.add-screen-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+    overflow: hidden; /* Запрещаем скролл всей страницы, чтобы хэдер стоял намертво */
+    background: #f5f5f5;
+}
+
+.app-header {
+    background-color: #259b23;
+    padding: 20px 16px 16px;
+    flex-shrink: 0;
+}
+
+.app-header h1 {
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.add-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 20px 20px;
+}
+
+.add-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.media-block {
+    background: #fff;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.media-block .media-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9a9a9a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.preview-media {
+    width: 100%;
+    border-radius: 10px;
+    max-height: 150px;
+    object-fit: cover;
+    background: #e8e8e8;
+}
+
+video.preview-media {
+    background: #1a1a1a;
+}
+
+.file-upload-input {
+    width: 100%;
+    font-size: 13px;
+    color: #555;
+    padding: 6px 0;
+    margin-top: 8px;
+}
+
+.add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 10px;
+}
+
+.add-form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    font-weight: 500;
+    color: #7a7a7a;
+    gap: 6px;
+}
+
+.add-form input,
+.add-form textarea {
+    padding: 12px 16px;
+    border: none;
+    border-radius: 16px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: box-shadow 0.2s;
+    background: #ffffff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    outline: none;
+    color: #333;
+}
+
+.add-form input:focus,
+.add-form textarea:focus {
+    box-shadow: 0 0 0 2px rgba(37, 155, 35, 0.35);
+}
+
+.add-form textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.publish-btn, .next-btn {
+    margin-top: 12px;
+    padding: 12px;
+    border: none;
+    border-radius: 16px;
+    background: #259b23;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.15s;
+}
+
+.publish-btn:hover, .next-btn:hover {
+    background: #1e8a1c;
+}
+
+.add-form input[readonly] {
+    background: #f0f0f0;
+    color: #666;
+    cursor: default;
+}
+
+.add-form input:invalid,
+.add-form textarea:invalid {
+    box-shadow: 0 0 0 2px #dc3545, 0 0 8px rgba(220, 53, 69, 0.35);
+}
+
+.add-form input:invalid:focus,
+.add-form textarea:invalid:focus {
+    box-shadow: 0 0 0 3px #dc3545, 0 0 12px rgba(220, 53, 69, 0.5);
+}
+
+.add-form input:valid:focus,
+.add-form textarea:valid:focus {
+    box-shadow: 0 0 0 2px rgba(37, 155, 35, 0.45);
+}
+
+.add-form input[readonly]:invalid {
+    box-shadow: none;
 }
