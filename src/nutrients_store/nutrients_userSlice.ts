@@ -18,7 +18,7 @@ const nutrients_userSlice = createSlice({
   reducers: {
     nutrients_loginSuccess(state, action) {
       state.nutrients_username = action.payload;
-      state.nutrients_isAuthenticated = 1; // Ставим 1 при входе
+      state.nutrients_isAuthenticated = 1; // Ставим 1 при входеЫ
       state.nutrients_error = null;
     },
     nutrients_loginFailure(state, action) {
