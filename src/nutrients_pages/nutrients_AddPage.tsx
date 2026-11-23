@@ -1,21 +1,33 @@
 import { type FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { AppDispatch, RootState } from '../nutrients_store';
-import { nutrients_fetchDraft, nutrients_updateDraftData, nutrients_createDraftAsync, nutrients_publishDraftAsync } from '../nutrients_store/nutrients_draftSlice';
+import {
+  nutrients_fetchDraft,
+  nutrients_updateDraftData,
+  nutrients_createDraftAsync,
+  nutrients_publishDraftAsync,
+} from '../nutrients_store/nutrients_draftSlice';
 import { useNavigate } from 'react-router-dom';
 import { NUTRIENTS_ROUTES } from '../nutrients_Routes';
 
 export const Nutrients_AddPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { nutrients_isDraft, nutrients_data, nutrients_draftId } = useSelector((state: RootState) => state.nutrients_draft);
-  const isAuthenticated = useSelector((state: RootState) => state.nutrients_user.nutrients_isAuthenticated);
+  const { nutrients_isDraft, nutrients_data, nutrients_draftId } = useSelector(
+    (state: RootState) => state.nutrients_draft
+  );
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.nutrients_user.nutrients_isAuthenticated
+  );
+
+  const defaultImage = `${import.meta.env.BASE_URL}nutrients_default_image.jpg`;
+  const defaultVideo = `${import.meta.env.BASE_URL}nutrients_default_video.mp4`;
 
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [videoFile, setVideoFile] = useState<File | null>(null);
 
-  const [previewImage, setPreviewImage] = useState<string>('/nutrients_default_image.jpg');
-  const [previewVideo, setPreviewVideo] = useState<string>('/nutrients_default_video.mp4');
+  const [previewImage, setPreviewImage] = useState<string>(defaultImage);
+  const [previewVideo, setPreviewVideo] = useState<string>(defaultVideo);
 
   useEffect(() => {
     if (isAuthenticated === 0) {
@@ -41,22 +53,23 @@ export const Nutrients_AddPage: FC = () => {
     }
   };
 
-  const nutrients_handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const nutrients_handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     dispatch(nutrients_updateDraftData({ [e.target.name]: e.target.value }));
   };
 
   const nutrients_handleCreate = (e: React.FormEvent) => {
-    e.preventDefault(); 
+    e.preventDefault();
     const formData = new FormData();
     formData.append('name', nutrients_data.name);
     if (imageFile) formData.append('image', imageFile);
     if (videoFile) formData.append('video', videoFile);
 
-    // Вызываем Thunk через dispatch
     dispatch(nutrients_createDraftAsync(formData))
       .unwrap()
       .catch((error) => {
-        alert("Ошибка при создании: " + error);
+        alert('Ошибка при создании: ' + error);
       });
   };
 
@@ -68,21 +81,28 @@ export const Nutrients_AddPage: FC = () => {
         data: {
           dailyNorm: Number(nutrients_data.dailyNorm),
           unit: nutrients_data.unit,
-          description: nutrients_data.description
-        }
+          description: nutrients_data.description,
+        },
       };
-      
-      // Вызываем Thunk через dispatch
+
       dispatch(nutrients_publishDraftAsync(payload))
         .unwrap()
         .then(() => {
           navigate(NUTRIENTS_ROUTES.NUTRIENTS_GRID);
         })
         .catch(() => {
-          console.error("Ошибка публикации");
+          console.error('Ошибка публикации');
         });
     }
   };
+
+  const draftImageUrl = nutrients_data.imageKey
+    ? nutrients_data.imageKey.replace('http://localhost:9000', '')
+    : defaultImage;
+
+  const draftVideoUrl = nutrients_data.videoKey
+    ? nutrients_data.videoKey.replace('http://localhost:9000', '')
+    : defaultVideo;
 
   return (
     <div className="add-screen-wrapper">
@@ -95,12 +115,19 @@ export const Nutrients_AddPage: FC = () => {
           <form onSubmit={nutrients_handlePublish} className="add-form">
             <div className="media-block">
               <span className="media-label">📷 ИЗОБРАЖЕНИЕ</span>
-              <img src={nutrients_data.imageKey || "/nutrients_default_image.jpg"} alt="Изображение" className="preview-media" />
+              <img
+                src={draftImageUrl}
+                alt="Изображение"
+                className="preview-media"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = defaultImage;
+                }}
+              />
             </div>
 
             <div className="media-block">
               <span className="media-label">🎬 ВИДЕО</span>
-              <video src={nutrients_data.videoKey || "/nutrients_default_video.mp4"} controls className="preview-media"></video>
+              <video src={draftVideoUrl} controls className="preview-media"></video>
             </div>
 
             <label>
@@ -110,41 +137,84 @@ export const Nutrients_AddPage: FC = () => {
 
             <label>
               Суточная норма
-              <input type="number" name="dailyNorm" value={nutrients_data.dailyNorm} onChange={nutrients_handleInputChange} required />
+              <input
+                type="number"
+                name="dailyNorm"
+                value={nutrients_data.dailyNorm}
+                onChange={nutrients_handleInputChange}
+                required
+              />
             </label>
 
             <label>
               Единица измерения
-              <input type="text" name="unit" value={nutrients_data.unit} onChange={nutrients_handleInputChange} required />
+              <input
+                type="text"
+                name="unit"
+                value={nutrients_data.unit}
+                onChange={nutrients_handleInputChange}
+                required
+              />
             </label>
 
             <label>
               Описание
-              <textarea name="description" value={nutrients_data.description} onChange={nutrients_handleInputChange}></textarea>
+              <textarea
+                name="description"
+                value={nutrients_data.description}
+                onChange={nutrients_handleInputChange}
+              ></textarea>
             </label>
 
-            <button type="submit" className="publish-btn">Опубликовать</button>
+            <button type="submit" className="publish-btn">
+              Опубликовать
+            </button>
           </form>
         ) : (
           <form onSubmit={nutrients_handleCreate} className="add-form">
             <div className="media-block">
               <span className="media-label">📷 ИЗОБРАЖЕНИЕ</span>
-              <img src={previewImage} alt="Preview" className="preview-media" />
-              <input type="file" accept="image/*" onChange={nutrients_handleImageChange} className="file-upload-input" />
+              <img
+                src={previewImage}
+                alt="Preview"
+                className="preview-media"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = defaultImage;
+                }}
+              />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={nutrients_handleImageChange}
+                className="file-upload-input"
+              />
             </div>
 
             <div className="media-block">
               <span className="media-label">🎬 ВИДЕО</span>
               <video src={previewVideo} controls className="preview-media"></video>
-              <input type="file" accept="video/*" onChange={nutrients_handleVideoChange} className="file-upload-input" />
+              <input
+                type="file"
+                accept="video/*"
+                onChange={nutrients_handleVideoChange}
+                className="file-upload-input"
+              />
             </div>
 
             <label>
               Название
-              <input type="text" name="name" value={nutrients_data.name} onChange={nutrients_handleInputChange} required />
+              <input
+                type="text"
+                name="name"
+                value={nutrients_data.name}
+                onChange={nutrients_handleInputChange}
+                required
+              />
             </label>
 
-            <button type="submit" className="next-btn">Далее</button>
+            <button type="submit" className="next-btn">
+              Далее
+            </button>
           </form>
         )}
       </div>
