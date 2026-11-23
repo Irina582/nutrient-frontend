@@ -10,7 +10,7 @@ interface INutrients_CardProps {
 
 export const Nutrients_Card: FC<INutrients_CardProps> = ({ nutrients_item, nutrients_onClick, nutrients_onDelete }) => {
   const isAuthenticated = useSelector((state: RootState) => state.nutrients_user.nutrients_isAuthenticated);
-  const nutrients_default_image = '/nutrients_default_image.jpg';
+  const nutrients_default_image = `${import.meta.env.BASE_URL}nutrients_default_image.jpg`;
 
   const isMyCard = (isAuthenticated === 1) && (nutrients_item.isCreator === 1 || nutrients_item.isCreator === true);
   const itemId = nutrients_item.id || nutrients_item.nutrients_id;

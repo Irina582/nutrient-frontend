@@ -8,8 +8,7 @@ import { NUTRIENTS_MOCK_DATA } from '../nutrients_modules/nutrients_api';
 export const Nutrients_FeedPage: FC = () => {
   const location = useLocation();
   const dispatch = useDispatch<AppDispatch>();
-  const nutrients_default_video = '/nutrients_default_video.mp4';
-
+  const nutrients_default_video = `${import.meta.env.BASE_URL}nutrients_default_video.mp4`;
   const isAuthenticated = useSelector((state: RootState) => state.nutrients_user.nutrients_isAuthenticated);
 
   // Получаем ID из стейта роутера (если пришли с плитки)

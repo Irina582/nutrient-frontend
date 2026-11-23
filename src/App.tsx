@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Nutrients_AppLayout } from './nutrients_AppLayout';
 import { Nutrients_FeedPage } from './nutrients_pages/nutrients_FeedPage';
 import { Nutrients_GridPage } from './nutrients_pages/nutrients_GridPage';
@@ -8,9 +8,10 @@ import { NUTRIENTS_ROUTES } from './nutrients_Routes';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/nutrient-frontend">
       <Routes>
         <Route element={<Nutrients_AppLayout />}>
+          <Route path="/" element={<Navigate to={NUTRIENTS_ROUTES.NUTRIENTS_GRID} replace />} />
           <Route path={NUTRIENTS_ROUTES.NUTRIENTS_FEED} element={<Nutrients_FeedPage />} />
           <Route path="/nutrients/feed/:id" element={<Nutrients_FeedPage />} />
           <Route path={NUTRIENTS_ROUTES.NUTRIENTS_GRID} element={<Nutrients_GridPage />} />

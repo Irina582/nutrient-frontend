@@ -1,10 +1,11 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { Provider } from 'react-redux'
-import { nutrients_store } from './nutrients_store'
-import App from './App.tsx'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { registerSW } from 'virtual:pwa-register';
+import { nutrients_store } from './nutrients_store';
+import App from './App.tsx';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -12,4 +13,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <App />
     </Provider>
   </React.StrictMode>,
-)
+);
+
+if ('serviceWorker' in navigator) {
+  registerSW();
+}
