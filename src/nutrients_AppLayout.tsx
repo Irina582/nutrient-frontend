@@ -10,7 +10,7 @@ export const Nutrients_AppLayout: FC = () => {
   let pageClass = 'tile-screen'; 
   
   // Если это Лента, ставим стиль Ленты
-  if (location.pathname === NUTRIENTS_ROUTES.NUTRIENTS_FEED) {
+  if (location.pathname.startsWith(NUTRIENTS_ROUTES.NUTRIENTS_FEED)) {
     pageClass = 'feed-screen';
   }
 

@@ -60,7 +60,20 @@ export const Nutrients_FeedPage: FC = () => {
   }, [initialId]);
 
   if (loading && !currentNutrient) {
-    return <div style={{ color: 'white', textAlign: 'center', padding: '50px' }}>Загрузка ленты...</div>;
+    return (
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#555',
+          fontSize: '16px',
+        }}
+      >
+        Загрузка ленты...
+      </div>
+    );
   }
 
   if (!currentNutrient) return null;
