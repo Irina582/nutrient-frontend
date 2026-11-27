@@ -926,7 +926,6 @@ video.preview-media {
     }
 }
 
-
 /* ============================================
    ТЕЛЕФОН — 2 КОЛОНКИ
    ============================================ */
@@ -1200,8 +1199,6 @@ video.preview-media {
         font-size: 26px;
     }
 
-    /* Форма занимает всю ширину страницы */
-
     .add-scroll {
         width: 100%;
         max-width: none;
@@ -1210,8 +1207,6 @@ video.preview-media {
         padding: 24px 4%;
     }
 
-    /* Две колонки для изображения и видео */
-
     .add-form {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1219,7 +1214,6 @@ video.preview-media {
         align-items: stretch;
     }
 
-    /* Блоки изображения и видео */
 
     .add-form > .media-block {
         min-width: 0;
@@ -1233,8 +1227,6 @@ video.preview-media {
         font-size: 15px;
         margin-bottom: 12px;
     }
-
-    /* Изображение */
 
     .preview-media {
         display: block;
