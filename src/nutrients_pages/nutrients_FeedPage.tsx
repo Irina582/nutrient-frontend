@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import type { RootState, AppDispatch } from '../nutrients_store';
 import { nutrients_fetchFeedAsync, nutrients_likeAsync } from '../nutrients_store/nutrients_listSlice';
 import { NUTRIENTS_MOCK_DATA } from '../nutrients_modules/nutrients_api';
+import { nutrients_dest_img } from '../nutrients_target_config';
 
 export const Nutrients_FeedPage: FC = () => {
   const location = useLocation();
@@ -11,13 +12,11 @@ export const Nutrients_FeedPage: FC = () => {
   const nutrients_default_video = `${import.meta.env.BASE_URL}nutrients_default_video.mp4`;
   const isAuthenticated = useSelector((state: RootState) => state.nutrients_user.nutrients_isAuthenticated);
 
-  // Получаем ID из стейта роутера (если пришли с плитки)
   const initialId = location.state?.selectedId;
 
   const [currentNutrient, setCurrentNutrient] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Функция загрузки через Thunk с fallback на моки, если бэкенд выключен
   const loadFeed = async (id?: number, next: boolean = false) => {
     setLoading(true);
     try {
@@ -31,26 +30,25 @@ export const Nutrients_FeedPage: FC = () => {
       if (nutrients_fetchFeedAsync.fulfilled.match(resultAction) && resultAction.payload) {
         setCurrentNutrient(resultAction.payload);
       } else {
-        // Если бэкенд упал или не вернул данные — берем опубликованные моки
-        const publishedMocks = NUTRIENTS_MOCK_DATA.filter(n => n.nutrients_status === 'опубликован');
+        const publishedMocks = NUTRIENTS_MOCK_DATA.filter((n) => n.nutrients_status === 'опубликован');
         if (publishedMocks.length > 0) {
-          const foundIndex = publishedMocks.findIndex(n => n.nutrients_id === id);
-          const targetItem = foundIndex !== -1 && next 
-            ? publishedMocks[(foundIndex + 1) % publishedMocks.length] 
-            : (publishedMocks[foundIndex] || publishedMocks[0]);
+          const foundIndex = publishedMocks.findIndex((n) => n.nutrients_id === id);
+          const targetItem =
+            foundIndex !== -1 && next
+              ? publishedMocks[(foundIndex + 1) % publishedMocks.length]
+              : publishedMocks[foundIndex] || publishedMocks[0];
           setCurrentNutrient(targetItem);
         }
       }
     } catch (error) {
       console.error('Ошибка загрузки ленты, используем моки', error);
-      const publishedMocks = NUTRIENTS_MOCK_DATA.filter(n => n.nutrients_status === 'опубликован');
+      const publishedMocks = NUTRIENTS_MOCK_DATA.filter((n) => n.nutrients_status === 'опубликован');
       setCurrentNutrient(publishedMocks[0] || null);
     } finally {
       setLoading(false);
     }
   };
 
-  // При открытии страницы грузим карточку
   useEffect(() => {
     if (initialId) {
       loadFeed(initialId, false);
@@ -83,14 +81,15 @@ export const Nutrients_FeedPage: FC = () => {
   const currentLikes = currentNutrient.likesCount ?? currentNutrient.nutrients_likes_count ?? 0;
 
   const rawVideo = currentNutrient.videoKey || currentNutrient.nutrients_video_url || nutrients_default_video;
-  const videoUrl = typeof rawVideo === 'string' ? rawVideo.replace('http://localhost:9000', '') : rawVideo;
+  const videoUrl =
+    typeof rawVideo === 'string'
+      ? rawVideo.replace('http://localhost:9000', nutrients_dest_img)
+      : rawVideo;
 
-  // Кнопка «Следующий»
   const nutrients_handleNext = () => {
     loadFeed(itemId, true);
   };
 
-  // Кнопка «Лайк»
   const nutrients_handleLike = async () => {
     if (isAuthenticated === 0) return;
     const toggleValue = isLikedByMe ? 0 : 1;
@@ -116,12 +115,12 @@ export const Nutrients_FeedPage: FC = () => {
         playsInline
         key={`video-${itemId}`}
       />
-      
+
       <div className="feed-actions-right">
-        <button 
+        <button
           type="button"
-          className="feed-like-btn" 
-          onClick={nutrients_handleLike} 
+          className="feed-like-btn"
+          onClick={nutrients_handleLike}
           disabled={isAuthenticated === 0}
           style={{ backgroundColor: getLikeButtonBg() }}
           title={isAuthenticated === 1 ? 'Поставить лайк' : 'Авторизуйтесь для лайка'}
@@ -132,24 +131,21 @@ export const Nutrients_FeedPage: FC = () => {
 
         <button type="button" className="next-arrow" onClick={nutrients_handleNext} title="Следующий">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 9L12 15L18 9" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M6 9L12 15L18 9" stroke="#ffffff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-        
+
         <p className="feed-norm">
-          Норма: {currentNutrient.dailyNorm ?? currentNutrient.nutrients_daily_norm} {currentNutrient.unit ?? currentNutrient.nutrients_unit}
+          Норма: {currentNutrient.dailyNorm ?? currentNutrient.nutrients_daily_norm}{' '}
+          {currentNutrient.unit ?? currentNutrient.nutrients_unit}
         </p>
       </div>
 
       <div className="feed-overlay">
         <p className="feed-title">{currentNutrient.name || currentNutrient.nutrients_name}</p>
-        
+
         <div className="desc-container" key={`desc-${itemId}`}>
-          <input 
-            type="checkbox" 
-            id={`descToggle-${itemId}`} 
-            className="desc-checkbox" 
-          />
+          <input type="checkbox" id={`descToggle-${itemId}`} className="desc-checkbox" />
           <p className="desc-text">{currentNutrient.description || currentNutrient.nutrients_description}</p>
           <label htmlFor={`descToggle-${itemId}`} className="desc-label"></label>
         </div>

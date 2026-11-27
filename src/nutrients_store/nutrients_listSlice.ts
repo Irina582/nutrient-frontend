@@ -7,6 +7,7 @@ interface INutrients_ListState {
   nutrients_maxNorm: string;
   nutrients_items: INutrients_Item[];
   nutrients_loading: boolean;
+  nutrients_textEmbeddings: Record<number, number[]>;
 }
 
 const initialState: INutrients_ListState = {
@@ -14,9 +15,9 @@ const initialState: INutrients_ListState = {
   nutrients_maxNorm: '150',
   nutrients_items: [],
   nutrients_loading: false,
+  nutrients_textEmbeddings: {},
 };
 
-// 4-й Thunk
 export const nutrients_fetchList = createAsyncThunk(
   'nutrients/fetchList',
   async (_, { getState, rejectWithValue }) => {
@@ -33,7 +34,6 @@ export const nutrients_fetchList = createAsyncThunk(
   }
 );
 
-// 5-й Thunk
 export const nutrients_likeAsync = createAsyncThunk(
   'nutrients/like',
   async ({ id, value }: { id: number; value: number }, { dispatch, rejectWithValue }) => {
@@ -47,7 +47,6 @@ export const nutrients_likeAsync = createAsyncThunk(
   }
 );
 
-// 6-й Thunk (Удаление)
 export const nutrients_removeAsync = createAsyncThunk(
   'nutrients/remove',
   async (id: number, { dispatch, rejectWithValue }) => {
@@ -61,7 +60,6 @@ export const nutrients_removeAsync = createAsyncThunk(
   }
 );
 
-// 7-й Thunk (Лента - для полного комплекта из 7 Thunk по заданию)
 export const nutrients_fetchFeedAsync = createAsyncThunk(
   'nutrients/fetchFeed',
   async (query: { id: string; next: string }, { rejectWithValue }) => {
@@ -87,7 +85,13 @@ const nutrients_listSlice = createSlice({
     nutrients_resetFilters(state) {
       state.nutrients_minNorm = '0';
       state.nutrients_maxNorm = '150';
-    }
+    },
+    nutrients_setTextEmbeddings(state, action) {
+      state.nutrients_textEmbeddings = {
+        ...state.nutrients_textEmbeddings,
+        ...action.payload,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -101,13 +105,19 @@ const nutrients_listSlice = createSlice({
       .addCase(nutrients_fetchList.rejected, (state) => {
         state.nutrients_loading = false;
         state.nutrients_items = NUTRIENTS_MOCK_DATA.filter(
-          n => n.nutrients_status === 'опубликован' &&
-          n.nutrients_daily_norm >= Number(state.nutrients_minNorm) &&
-          n.nutrients_daily_norm <= Number(state.nutrients_maxNorm)
+          (n) =>
+            n.nutrients_status === 'опубликован' &&
+            n.nutrients_daily_norm >= Number(state.nutrients_minNorm) &&
+            n.nutrients_daily_norm <= Number(state.nutrients_maxNorm)
         );
       });
   },
 });
 
-export const { nutrients_setMinNorm, nutrients_setMaxNorm, nutrients_resetFilters } = nutrients_listSlice.actions;
+export const {
+  nutrients_setMinNorm,
+  nutrients_setMaxNorm,
+  nutrients_resetFilters,
+  nutrients_setTextEmbeddings,
+} = nutrients_listSlice.actions;
 export default nutrients_listSlice.reducer;

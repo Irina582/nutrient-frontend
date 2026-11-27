@@ -10,9 +10,11 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "generate-api": "node scripts/nutrients_generate_api.mjs"
+    "generate-api": "node scripts/nutrients_generate_api.mjs",
+    "tauri": "tauri"
   },
   "dependencies": {
+    "@huggingface/transformers": "^4.3.2",
     "@reduxjs/toolkit": "^2.14.0",
     "axios": "^1.21.0",
     "bootstrap": "^5.3.8",
@@ -24,6 +26,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@tauri-apps/api": "^2.12.5",
+    "@tauri-apps/cli": "^2.12.6",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

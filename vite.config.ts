@@ -1,15 +1,23 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
-import fs from 'fs';
-import path from 'path';
+// import fs from 'fs';
+// import path from 'path';
+import {
+  nutrients_api_proxy_addr,
+  nutrients_img_proxy_addr,
+  nutrients_dest_root,
+} from './src/nutrients_target_config.ts';
 
 export default defineConfig({
-  base: '/nutrient-frontend/',
+  base: nutrients_dest_root,
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: {
+        maximumFileSizeToCacheInBytes: 50 * 1024 * 1024,
+      },
       devOptions: {
         enabled: true,
       },
@@ -40,18 +48,20 @@ export default defineConfig({
   server: {
     host: true,
     port: 5173,
-    https: {
-      key: fs.readFileSync(path.resolve(__dirname, 'cert.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'cert.crt')),
-    },
+    // https: {
+    //   key: fs.readFileSync(path.resolve(__dirname, 'cert.key')),
+    //   cert: fs.readFileSync(path.resolve(__dirname, 'cert.crt')),
+    // },
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: nutrients_api_proxy_addr,
         changeOrigin: true,
+        secure: false,
       },
       '/media': {
-        target: 'http://localhost:9000',
+        target: nutrients_img_proxy_addr,
         changeOrigin: true,
+        secure: false,
       },
     },
   },

@@ -1,6 +1,7 @@
 import { Api } from './Api';
+import { nutrients_dest_api } from '../nutrients_target_config';
 
 export const nutrients_api = new Api({
-    baseURL: '/', // Запросы пойдут в корень, а Vite Proxy перекинет /api на бэкенд
-    withCredentials: true, // ОЧЕНЬ ВАЖНО для передачи sessionId в куках
+  baseURL: nutrients_dest_api,
+  withCredentials: true,
 });
